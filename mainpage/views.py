@@ -7,7 +7,6 @@ def index(request):
     
     context = {
         "now" : timezone.localtime().strftime('%Y-%m-%d'), # 현재 시각
-        "latest" : WordCloud.objects.last(), # 가장 최근 저장된 것
         "hot" : ["연예인","정치","황사","에어컨","데브코스"], # wordcloud의 상위 5개 키워드를 가져오면 될 듯
         "times" : [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]
     }
