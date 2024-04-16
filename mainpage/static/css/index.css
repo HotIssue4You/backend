@@ -1,0 +1,38 @@
+body {
+    background-image : url('../images/background_image2.png');
+    background-size : 1300px 700px;
+    background-repeat : no-repeat;
+    background-position : 50% -15%;
+}
+
+form {
+    position: fixed;
+    top: 200px;
+    left: 450px;
+}
+
+img {
+    position: fixed;
+    top: 150px;
+    left: 800px;
+    width: 700px;
+    height: 513px;
+}
+
+div {
+    position: fixed;
+    top: 680px;
+    left: 1100px;
+}
+
+p {
+    color: white;
+    position: relative;
+    top:3px;
+}
+
+a {
+    color: white;
+    position: relative;
+    top:-10px;
+}
