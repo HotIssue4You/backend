@@ -22,6 +22,11 @@
         <br>
         <img src="{% static 'images/wordcloudSample.png' %}" />
         <br>
-        <a href="https://search.naver.com/search.naver?where=news&ie=utf8&sm=nws_hty&query=%EB%89%B4%EC%8A%A4">HOT!한 상위 키워드를 보고싶으세요?</a>
+        <div>
+            <p><b>TOP 5 키워드</b></p>
+            {% for i in hot %}
+                <a href="https://search.naver.com/search.naver?where=news&ie=utf8&sm=nws_hty&query={{i}}">{{i}}</a>
+            {% endfor %}
+        </div>
     </body>
 </html>
