@@ -2,13 +2,18 @@
 <html>
 <body>
     <h1><b>HOT ISSUE 4 YOU</b></h1>
-
+        <form action="" method="post">
+            {% csrf_token %}
+            <label for="day-select"></label>
+            <input type="date" name="day-select" id="day-select" value="{{now}}" min="2024-04-01">
             <label for="time-select"></label>
-            <select name="time" id="time-select">
+            <select name="time-select" id="time-select">
             {% for i in times %}
-                <option value="{{i}}">{{i}}</option>
+                <option value="{{i}}">{{i}}시</option>
             {% endfor %}
             </select>
-    <img
+            <input type="submit">
+        </form>
+    <img>
 </body>
 </html>
