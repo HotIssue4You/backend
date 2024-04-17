@@ -1,9 +1,19 @@
 import requests
 import pandas as pd
 import datetime
-from pytz import timezone
+# from pytz import timezone
 from bs4 import BeautifulSoup as bs
 from preproccesing import process, print_title_dataFrame
+
+"""
+below imports from django 
+"""
+import os
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "hotissue4you.settings")
+import django
+from django.utils import timezone
+django.setup()
+from mainpage.models import Article
 
 
 def get_news_data(url, user_agent, df):
@@ -22,7 +32,8 @@ def get_news_data(url, user_agent, df):
         news_info = news.find_all("span", "info")
         time_info = news_info[-1]
         minutes = int(time_info.text[:-3])
-        current = datetime.datetime.now(timezone('Asia/Seoul'))
+        # current = datetime.datetime.now(timezone('Asia/Seoul'))
+        current = timezone.now()
         created_at = current - datetime.timedelta(minutes=minutes)
         df.loc[len(df)] = [news_contents['title'], created_at, news_contents['href'], time_info.text]
 
@@ -41,12 +52,14 @@ def main():
     except (KeyError, ValueError):
         # csv로 저장말고, 곧바로 데이터 프레임을 처리하는 부분 코드 추가 필요
         processed = process(data=df)
-        print_title_dataFrame(processed)
+        # print_title_dataFrame(processed)
 
         return
     # csv로 저장말고, 곧바로 데이터 프레임을 처리하는 부분 코드 추가 필요
     # df.to_csv("results2.csv")
     processed = process(data=df)
+    for idx, row in processed.iterrows():
+        Article(title=row['title'], noun_title=row['noun_title'], created_at=row['created_at']).save()
     print_title_dataFrame(processed)
 
 
