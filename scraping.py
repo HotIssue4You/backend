@@ -10,10 +10,12 @@ below imports from django
 import os
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "hotissue4you.settings")
 import django
+import logging
 from django.utils import timezone
 django.setup()
 from mainpage.models import Article
 
+logger = logging.getLogger(__name__)
 
 def get_news_data(url, user_agent, df):
     """
@@ -52,10 +54,7 @@ def main():
     try:
         get_news_data(url, user_agent, df)
     except (KeyError, ValueError):
-        # processed = process(data=df)
-        processed = process(data=df, now=timezone.now())
-        save_page_rows_to_article(processed)
-        print_title_dataFrame(processed)
+        logger.error("HTML 문서로부터 원하는 데이터를 가져오지 못 했습니다.")
 
         return
     # processed = process(data=df)

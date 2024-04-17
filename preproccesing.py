@@ -29,7 +29,7 @@ def process(data, now):
     3. 모든 특수문자를 지움.
     * 순서 바뀌면 안됨
     :param data: pandas dataframe
-    :return : 전처리 완료된 기사 정보(제목, 추출된 명사들, 게시 시간) 목록
+    :return : 전처리 완료된 기사 정보(기사 제목들, 모든 기사들로부터 추출된 명사들, 수집 시간(now)) 행 1개
     """
     unique_data = to_unique(data)
     processed_data = pd.DataFrame(columns=['title', 'noun_title', 'created_at'])
