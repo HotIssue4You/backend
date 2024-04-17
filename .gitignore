@@ -3,3 +3,4 @@
 /results3.csv
 *.pyc
 .DS_Store
+/db.sqlite3
