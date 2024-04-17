@@ -1,3 +1,10 @@
+@font-face {
+    font-family: 'Chosunilbo_myungjo';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/Chosunilbo_myungjo.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 body {
     width: 99%;
     height: 500px;
@@ -34,19 +41,20 @@ body {
 #donut_graph {
     display: block;
     width: 58%;
-    height: 300px;
+    height: 320px;
     margin-left: 30%;
-    margin-top: 160px; 
+    margin-top: 155px; 
 }
 h1 {
+    font-family: 'Chosunilbo_myungjo';
     color: red;
     font-size : 50px;
     margin-left: 50px;
-    margin-top: 160px;
+    margin-top: 175px;
 }
 .top5_list {
     color: white;
     font-size : 30px;
-    margin-left: 55px;
-    margin-top: -15px;
+    margin-left: 65px;
+    margin-top: -10px;
 }
