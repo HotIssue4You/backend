@@ -52,12 +52,14 @@ def main():
     try:
         get_news_data(url, user_agent, df)
     except (KeyError, ValueError):
-        processed = process(data=df)
+        # processed = process(data=df)
+        processed = process(data=df, now=timezone.now())
         save_page_rows_to_article(processed)
         print_title_dataFrame(processed)
 
         return
-    processed = process(data=df)
+    # processed = process(data=df)
+    processed = process(data=df, now=timezone.now())
     save_page_rows_to_article(processed)
     print_title_dataFrame(processed)
 
