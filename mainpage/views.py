@@ -6,13 +6,13 @@ from django.utils import timezone
 def index(request):
     day_select = request.GET.get('day_select')
     time_select = request.GET.get('time-select')
-    # wordclouds = WordCloud.objects.get()
+    # wordcloud = WordCloud.objects.get() # day_selectd와 time-select 조건에 맞는 워드클라우드 가져오기
     context = {
         "day_select" : day_select,
         "time_select" : time_select,
-        # wordclouds
+        # "wordcloud" : wordcloud
         "now_day" : timezone.localtime().strftime('%Y-%m-%d'), # 현재 날짜
-        "now_time" : timezone.localtime().hour,
+        "now_time" : timezone.localtime().hour, # 현재 시각
         "times" : [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]
     }
     return render(request, 'mainpage/index.html', context)
@@ -30,6 +30,6 @@ def detail(request):
     context = {
         "bar_graph" : bar_graph,
         "donut_graph" : donut_graph,
-        "top5" : top_5,
+        "top_5" : ["연예인","정치","황사","에어컨","데브코스"],
     }
     return render(request, 'mainpage/detail.html', context)

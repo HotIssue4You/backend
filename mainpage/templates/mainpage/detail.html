@@ -1,4 +1,16 @@
 <!DOCTYPE html>
 <html>
-    <h1>안녕하세요</h1>
+    <head>
+        <title>!! TOP 5 !!</title>
+    </head>
+
+    <body>
+        <div>
+        <ol>
+        {% for i in top_5 %}
+            <li><a href="https://search.naver.com/search.naver?where=news&ie=utf8&sm=nws_hty&query={{i}}">{{i}}</a></li>
+        {% endfor %}
+        </ol>
+        </div>
+    </body>
 </html>
