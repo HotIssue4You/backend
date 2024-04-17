@@ -2,22 +2,33 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <h1>!! TOP 5 !!</h1>
+        <title>show more graph and top 5 words hyperlink</title>
+        <link rel="stylesheet" href="{% static 'css/detail.css' %}">
     </head>
 
     <body>
-        <div>
-            <img src="{% static 'images/bar_graph.jpeg' %}" />
-            <img src="{% static 'images/donut_chart.jpeg' %}" />
+        <div class = "header"></div>
+        <div class = "body">
+            <div class = "leftSide"></div>
+            <div class = "contents">
+                <div class = "graph">
+                    <div>
+                        <img id = "donut_graph" src="{% static 'images/donut_chart.jpeg' %}" />
+                    </div>
+                </div>
+                <div class = "top5">
+                    <h1>!! TOP 5 !!</h1>
+                    <div class = "top5_list">
+                        <ol>
+                        {% for i in top_5 %}
+                            <li><a href="https://search.naver.com/search.naver?where=news&ie=utf8&sm=nws_hty&query={{i}}">{{i}}</a></li>
+                        {% endfor %}
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            <div class = "rightSide"></div>
         </div>
-
-
-        <div>
-            <ol>
-            {% for i in top_5 %}
-                <li><a href="https://search.naver.com/search.naver?where=news&ie=utf8&sm=nws_hty&query={{i}}">{{i}}</a></li>
-            {% endfor %}
-            </ol>
-        </div>
+        <div class = "footer"></div>
     </body>
 </html>
