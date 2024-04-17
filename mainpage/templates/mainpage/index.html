@@ -13,10 +13,10 @@
             <div class = "contents">
                 <form action="" method="post">
                     {% csrf_token %}
-                    <label for="day-select"></label>
-                    <input type="date" name="day-select" id="day-select" value="{{now_day}}" min="2024-04-01">
-                    <label for="time-select"></label>
-                    <select name="time-select" id="time-select">
+                    <label for="day_select"></label>
+                    <input type="date" name="day_select" id="day_select" value="{{now_day}}" min="2024-04-01">
+                    <label for="time_select"></label>
+                    <select name="time_select" id="time_select">
                     {% for i in times %}
                         <option value="{{i}}">{{i}}시</option>
                     {% endfor %}

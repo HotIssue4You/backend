@@ -5,8 +5,8 @@ from django.utils import timezone
 # Create your views here.
 def index(request):
     day_select = request.GET.get('day_select')
-    time_select = request.GET.get('time-select')
-    # wordcloud = WordCloud.objects.get() # day_selectd와 time-select 조건에 맞는 워드클라우드 가져오기
+    time_select = request.GET.get('time_select')
+    # wordcloud = WordCloud.objects.get() # day-selectd와 time-select 조건에 맞는 워드클라우드 가져오기
     context = {
         "day_select" : day_select,
         "time_select" : time_select,
