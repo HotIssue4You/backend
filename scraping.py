@@ -3,6 +3,7 @@ import pandas as pd
 import datetime
 from pytz import timezone
 from bs4 import BeautifulSoup as bs
+from preproccesing import process, print_title_dataFrame
 
 
 def get_news_data(url, user_agent, df):
@@ -39,10 +40,14 @@ def main():
         get_news_data(url, user_agent, df)
     except (KeyError, ValueError):
         # csv로 저장말고, 곧바로 데이터 프레임을 처리하는 부분 코드 추가 필요
-        df.to_csv("results3.csv")
+        processed = process(data=df)
+        print_title_dataFrame(processed)
+
         return
     # csv로 저장말고, 곧바로 데이터 프레임을 처리하는 부분 코드 추가 필요
-    df.to_csv("results3.csv")
+    # df.to_csv("results2.csv")
+    processed = process(data=df)
+    print_title_dataFrame(processed)
 
 
 if __name__ == "__main__":

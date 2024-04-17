@@ -1,8 +1,6 @@
 import pandas as pd
 import re
 
-from konlpy.tag import Okt
-
 def process(data):
     """
     1. 기사 목록들로부터 중복 기사들을 유니크하게 만들고,
@@ -26,6 +24,7 @@ def process(data):
 
 
 def get_noun_of_title(title):
+    from konlpy.tag import Okt
     Okt = Okt()
     nouns = Okt.nouns(title)
     return ' '.join(nouns)
@@ -71,17 +70,12 @@ def remove_specialChar(title):
 """
 코드 확인용 메인 함수
 """
-
-
-def main():
-    data = pd.read_csv('results3.csv')
-    processed = process(data)
-    for idx, row in processed.iterrows():
+def print_title_dataFrame(data):
+    # data = pd.read_csv('results2.csv')
+    # processed = process(data)
+    for idx, row in data.iterrows():
         print(idx)
         print(row['title'])
         print(row['noun_title'])
         print(row['created_at'])
-
-
-if __name__ == "__main__":
-    main()
+        print()
