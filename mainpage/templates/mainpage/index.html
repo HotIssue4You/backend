@@ -9,7 +9,7 @@
         <form action="" method="post">
             {% csrf_token %}
             <label for="day-select"></label>
-            <input type="date" name="day-select" id="day-select" value="{{now}}" min="2024-04-01">
+            <input type="date" name="day-select" id="day-select" value="{{now_day}}" min="2024-04-01">
             <label for="time-select"></label>
             <select name="time-select" id="time-select">
             {% for i in times %}

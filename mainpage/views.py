@@ -11,7 +11,8 @@ def index(request):
         "day_select" : day_select,
         "time_select" : time_select,
         # wordclouds
-        "now" : timezone.localtime().strftime('%Y-%m-%d'), # 현재 시각
+        "now_day" : timezone.localtime().strftime('%Y-%m-%d'), # 현재 날짜
+        "now_time" : timezone.localtime().hour,
         "times" : [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]
     }
     return render(request, 'mainpage/index.html', context)
