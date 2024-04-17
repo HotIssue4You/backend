@@ -8,7 +8,7 @@ def process(data):
     3. 모든 특수문자를 지움.
     * 순서 바뀌면 안됨
     :param data: pandas dataframe
-    :return : 전처리 완료된 기사 정보(제목, 게시 시간) 목록
+    :return : 전처리 완료된 기사 정보(제목, 추출된 명사들, 게시 시간) 목록
     """
     unique_data = to_unique(data)
     processed_data = pd.DataFrame(columns=['title', 'noun_title', 'created_at'])
@@ -67,10 +67,12 @@ def remove_specialChar(title):
     return re.sub(pattern=pattern, repl='', string=title)
 
 
-"""
-코드 확인용 메인 함수
-"""
 def print_title_dataFrame(data):
+    """
+    데이터프레임 출력 함수
+    :param data: pandas dataFrame
+    :return: None
+    """
     # data = pd.read_csv('results2.csv')
     # processed = process(data)
     for idx, row in data.iterrows():
