@@ -1,16 +1,23 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
     <head>
-        <title>!! TOP 5 !!</title>
+        <h1>!! TOP 5 !!</h1>
     </head>
 
     <body>
         <div>
-        <ol>
-        {% for i in top_5 %}
-            <li><a href="https://search.naver.com/search.naver?where=news&ie=utf8&sm=nws_hty&query={{i}}">{{i}}</a></li>
-        {% endfor %}
-        </ol>
+            <img src="{% static 'images/bar_graph.jpeg' %}" />
+            <img src="{% static 'images/donut_chart.jpeg' %}" />
+        </div>
+
+
+        <div>
+            <ol>
+            {% for i in top_5 %}
+                <li><a href="https://search.naver.com/search.naver?where=news&ie=utf8&sm=nws_hty&query={{i}}">{{i}}</a></li>
+            {% endfor %}
+            </ol>
         </div>
     </body>
 </html>
