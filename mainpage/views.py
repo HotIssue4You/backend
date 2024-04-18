@@ -1,14 +1,14 @@
 from django.shortcuts import render
 from .models import *
 from django.utils import timezone
-from ..visualization import make_wordcloud_with_title
+from visualization import make_wordcloud_with_title
 
 # Create your views here.
 def index(request):
-    start_day = request.POST.get('start_day')
-    start_time = request.POST.get('start_time')
-    end_day = request.POST.get('end_day')
-    end_time = request.POST.get('end_time')
+    start_day = request.GET.get('start_day')
+    start_time = request.GET.get('start_time')
+    end_day = request.GET.get('end_day')
+    end_time = request.GET.get('end_time')
     # wordcloud = WordCloud.objects.get() # day-selectd와 time-select 조건에 맞는 워드클라우드 가져오기
     
     context = {
@@ -18,6 +18,7 @@ def index(request):
         "end_time" : end_time
         # "wordcloud" : wordcloud,
     }
+
     return render(request, 'mainpage/index.html', context)
 
 

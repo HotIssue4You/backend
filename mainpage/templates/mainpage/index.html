@@ -32,7 +32,7 @@
                     document.getElementById('end_time').value = new Date().toISOString().slice(11, 16);
                 </script>
 
-                <img id="wordcloud" src="{% static 'images/wordcloudSample.png' %}" target="_blank" />
+                <img id="wordcloud" src="{% static 'images/wordcloudSample.png' %}" />
                 <br><br>
                 <a href="{% url 'mainpage:detail' %}">TOP 5 키워드를 확인해보세요!</a>
             </div>
