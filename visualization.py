@@ -1,5 +1,6 @@
 import seaborn as sns
 import matplotlib.pyplot as plt
+from matplotlib import font_manager, rc
 from wordcloud import WordCloud
 from collections import Counter
 from PIL import Image
@@ -8,7 +9,7 @@ import io
 from django.utils import timezone
 from django.http import Http404, HttpResponseServerError
 from django.db.utils import OperationalError
-from .models import Article
+from mainpage.models import Article
 from datetime import datetime, timedelta
 import pytz
 
@@ -104,14 +105,13 @@ def make_wordcloud_with_title(date=None, time=None, *args):
     noun_counter = Counter(titles)
     top_nouns = dict(noun_counter.most_common(100))
 
-    # 폰트 변경 가능
-    font_path = "./mainpage/static/fonts/ChosunNm.ttf"
+    font_path = "./mainpage/static/fonts/GodoM.ttf"
     wordcloud = WordCloud(width=800, height=400,
                         background_color='white',
                         font_path=font_path,
-                        colormap = 'summer').generate_from_frequencies(top_nouns)
+                        colormap = 'PuBu').generate_from_frequencies(top_nouns)
 
-    # figsize(크기), recolor(색깔) 조절 필요
+    # figsize(크기)
     plt.figure(figsize=(10, 5)) 
     plt.imshow(wordcloud, interpolation='bilinear')
     plt.axis('off')
@@ -127,26 +127,34 @@ time : 시간("15:30"), str
 <역할>
 date/time에 따른 30분 이내의 'noun_title' 데이터를 활용한 빈도수 막대 그래프 바이너리 반환
 '''
-
 def make_barplot_with_frequency_of_noun_title(date=None, time=None, *args):
     noun_titles_list = get_titles_within_thirty_minutes_from_django(date, time, 'noun_title')
     noun_titles = parse_titles(noun_titles_list)
     noun_counter = Counter(noun_titles)
     top_nouns = dict(noun_counter.most_common(10))
 
-    plt.rc("font", family= "Malgun Gothic") 
-    plt.rc("axes", unicode_minus = False)
+    sns.set_style('whitegrid')
+    font_path ="./mainpage/static/fonts/malgun.ttf"
+    font_name = font_manager.FontProperties(fname=font_path).get_name()
+    plt.rc('font', family=font_name)
 
-    # figsize(크기), style(디자인), label 수정 필요
-    sns.set_theme(font ='Malgun Gothic',
-                  rc = {'axes.unicode_minus' : False},
-                  style ='whitegrid')
+    # figsize(크기)
     plt.figure(figsize=(10, 5))
-    sns.barplot(x = list(top_nouns.keys()), y = list(top_nouns.values()))
-    plt.xlabel('단어')
-    plt.ylabel('빈도수')
-    plt.title('뉴스 제목 단어 빈도수')
-    
+    ax = sns.barplot(x=list(top_nouns.keys()), y=list(top_nouns.values()),
+                     palette='Blues_r', legend=False, hue=list(top_nouns.keys()))
+    for p in ax.patches:
+        ax.annotate(f"{int(p.get_height())}", (p.get_x() + p.get_width() / 2., p.get_height()),
+                    ha='center', va='center', fontsize=11, color='black', xytext=(0, 5),
+                    textcoords='offset points')
+
+    plt.xlabel('단어', fontsize=14)
+    plt.ylabel('빈도수', fontsize=14)
+    plt.title('단어별 뉴스 제목 빈도 분석', fontsize=18, fontweight='bold')
+    plt.xticks(fontsize=12, rotation=30)
+    plt.yticks(fontsize=12)
+    plt.ylim(0, max(top_nouns.values()) * 1.2)
+    plt.tight_layout()
+
     return generate_binary()
 
 '''
@@ -167,18 +175,15 @@ def make_donutchart_with_ratio_of_noun_title(date=None, time=None, *args):
     noun_counter = Counter(noun_titles)
     top_nouns = dict(noun_counter)
 
-    plt.rc("font", family= "Malgun Gothic") 
-    plt.rc("axes", unicode_minus = False)
-
-    # figsize(크기), style(디자인), label 수정 필요
-    sns.set_theme(font ='Malgun Gothic',
-                  rc = {'axes.unicode_minus' : False},
-                  style ='whitegrid')
-    plt.figure(figsize=(10, 5))
+    sns.set_style('whitegrid')
+    font_path ="./mainpage/static/fonts/malgun.ttf"
+    font_name = font_manager.FontProperties(fname=font_path).get_name()
+    plt.rc('font', family=font_name)
     
     data = list(top_nouns.values())
     labels = list(top_nouns.keys())
 
+    plt.figure(figsize=(10, 5))
     if len(data) < 10:
         plt.pie(data, labels=labels, autopct='%1.1f%%', startangle=90)
     else:
@@ -189,16 +194,14 @@ def make_donutchart_with_ratio_of_noun_title(date=None, time=None, *args):
         other_data = [total - sum(top_10_data)]
         other_labels = ['기타']
 
-        # 상위 10개 데이터와 기타 데이터를 합쳐서 도넛 차트 그리기
         plt.pie(top_10_data + other_data, labels=top_10_labels + other_labels, autopct='%1.1f%%', startangle=90)
 
-    # 도넛 차트에 중앙에 원 추가하기
     centre_circle = plt.Circle((0, 0), 0.70, fc='white')
     plt.gca().add_artist(centre_circle)
     plt.title('단어 빈도에 따른 비율')
     plt.axis('equal')
 
-    return generate_binary(), list(top_nouns.keys())[:5]
+    return generate_binary()
 
 '''
 - change_binary_to_image
@@ -209,6 +212,6 @@ def make_donutchart_with_ratio_of_noun_title(date=None, time=None, *args):
 a = make_barplot_with_noun_frequency(date, time)
 change_binary_to_image(a)
 '''
-def change_binary_to_image(binary_data):
+def change_binary_to_image(binary_data, *args):
     image = Image.open(io.BytesIO(binary_data))
     image.show()
