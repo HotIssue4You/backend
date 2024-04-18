@@ -13,15 +13,16 @@
             <div class = "contents">
                 <div class = "graph">
                     <div>
-                        <img id = "nouns_graph" src="{% static 'images/donut_chart.jpeg' %}" />
+<!--                        <img id = "nouns_graph" src="{% static 'images/donut_chart.jpeg' %}" />-->
+                        <img id="nouns_graph" src="data:donut/png;base64,{{ donut_graph|safe }}">
                         <button id = "switch" onclick="toggleImg()">another: bar_graph</button>
                     </div>
                     <script>
                         let flag = true;
                         function toggleImg() {
                             document.getElementById("nouns_graph").src = flag 
-                            ? "../../static/images/bar_graph.jpeg"
-                            : "../../static/images/donut_chart.jpeg";
+                            ? "data:bar/png;base64,{{ bar_graph|safe }}"
+                            : "data:donut/png;base64,{{ donut_graph|safe }}";
 
                             document.getElementById("switch").innerText = flag 
                             ? 'another: donut_graph'   

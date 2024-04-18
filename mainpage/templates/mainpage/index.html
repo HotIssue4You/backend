@@ -31,8 +31,8 @@
                     document.getElementById('start_time').value = new Date().toISOString().slice(11, 16);
                     document.getElementById('end_time').value = new Date().toISOString().slice(11, 16);
                 </script>
-
-                <img id="wordcloud" src="{% static 'images/wordcloudSample.png' %}" />
+                    <img id="wordcloud" src="data:cloud/png;base64,{{ wordcloud|safe }}">
+<!--                <img id="wordcloud" src="{% static 'images/wordcloudSample.png' %}" />-->
                 <br><br>
                 <a href="{% url 'mainpage:detail' %}">TOP 5 키워드를 확인해보세요!</a>
             </div>

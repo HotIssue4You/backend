@@ -1,10 +1,11 @@
 import seaborn as sns
 import matplotlib.pyplot as plt
-from matplotlib import font_manager, rc
+from matplotlib import font_manager, rc, use
+use('ps') # matplitlib backend mode, 안하면 쓰레드 충돌 발생
 from wordcloud import WordCloud
 from collections import Counter
 from PIL import Image
-import io
+import io, base64
 
 from django.utils import timezone
 from django.http import Http404, HttpResponseServerError
@@ -12,6 +13,8 @@ from django.db.utils import OperationalError
 from mainpage.models import Article
 from datetime import datetime, timedelta
 import pytz
+
+
 
 '''
 - 시각화 자료 : wordcloud, barplot, donutchart
@@ -88,6 +91,7 @@ def generate_binary():
         buf.seek(0)
         img_binary = buf.read()
         plt.close()
+        buf.close()
         return img_binary
     except OSError as e:
         raise HttpResponseServerError("Error while saving image: {}".format(e))
@@ -118,7 +122,7 @@ def make_wordcloud_with_title(input_after_datetime, input_before_datetime):
                         colormap = 'PuBu').generate_from_frequencies(top_nouns)
 
     # figsize(크기)
-    plt.figure(figsize=(10, 5)) 
+    plt.figure(figsize=(10, 5))
     plt.imshow(wordcloud, interpolation='bilinear')
     plt.axis('off')
 
@@ -149,7 +153,7 @@ def make_barplot_with_frequency_of_noun_title(input_after_datetime, input_before
     plt.rc('font', family=font_name)
 
     # figsize(크기)
-    plt.figure(figsize=(10, 5))
+    plt.figure(figsize=(4, 2))
     ax = sns.barplot(x=list(top_nouns.keys()), y=list(top_nouns.values()),
                      palette='Blues_r', legend=False, hue=list(top_nouns.keys()))
     for p in ax.patches:
@@ -216,6 +220,16 @@ def make_donutchart_with_ratio_of_noun_title(input_after_datetime, input_before_
     plt.axis('equal')
 
     return generate_binary()
+
+def generate_graph_from(png):
+    """
+    generate_binary()로부터 생성된 plot 이미지의 이진 8비트 데이터를 ASCII 7비트 이진 코드로 변환 후,
+    유니코드 문자열로 변환하여 반환 -> 이미지 소스로 이용
+    :param png: matplotlib.pyplot binary data
+    :return:
+    """
+    graph = base64.b64encode(png)
+    return graph.decode('utf-8')
 
 '''
 - change_binary_to_image
