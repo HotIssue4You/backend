@@ -229,14 +229,3 @@ change_binary_to_image(a)
 def change_binary_to_image(binary_data, *args):
     image = Image.open(io.BytesIO(binary_data))
     image.show()
-
-before_date="2024-04-18"
-before_time="07:02"
-input_before_datetime = merge_date_with_time(before_date, before_time)
-after_date="2024-04-18"
-after_time="07:12"
-input_after_datetime = merge_date_with_time(after_date, after_time)
-# print(get_titles_within_thirty_minutes_from_django(input_before_datetime=input_before_datetime,
-#                                                    input_after_datetime=input_after_datetime))
-img = make_donutchart_with_ratio_of_noun_title(input_before_datetime=input_before_datetime, input_after_datetime=input_after_datetime)
-change_binary_to_image(img)
