@@ -8,7 +8,7 @@ import io
 from django.utils import timezone
 from django.http import Http404, HttpResponseServerError
 from django.db.utils import OperationalError
-from .models import Article
+from mainpage.models import Article
 from datetime import datetime, timedelta
 import pytz
 
