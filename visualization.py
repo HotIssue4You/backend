@@ -35,8 +35,7 @@ date/time에 따른 30분 이내의 'title' or 'noun_title' 열의 시리즈를 
 2. 입력한 시간에 기사가 존재하지 않을 경우 : 404 code 반환
 3. 데이터베이스 연결 오류가 발생할 경우 : 500 Code 반환
 '''
-def get_titles_within_thirty_minutes_from_django(date=None, time=None, type='title'):
-    # date/time의 형식은 달라질 수 있음
+def merge_date_with_time(date, time):
     try:
         date = datetime.strptime(date, '%Y-%m-%d').date()
         time = datetime.strptime(time, '%H:%M').time()
@@ -44,11 +43,14 @@ def get_titles_within_thirty_minutes_from_django(date=None, time=None, type='tit
         date = datetime.now(pytz.utc).date()
         time = datetime.now(pytz.utc).time()
 
-    input_datetime = timezone.make_aware(datetime.combine(date, time))
-    thirty_minutes_ago = input_datetime - timedelta(minutes=30)
+    return timezone.make_aware(datetime.combine(date, time))
+
+def get_titles_within_thirty_minutes_from_django(input_after_datetime, input_before_datetime, type='title'):
+    # date/time의 형식은 달라질 수 있음
+    # thirty_minutes_ago = input_datetime - timedelta(minutes=30)
 
     try:
-        queryset = Article.objects.filter(created_at__lte=input_datetime, created_at__gte=thirty_minutes_ago)
+        queryset = Article.objects.filter(created_at__lte=input_after_datetime, created_at__gte=input_before_datetime)
         titles = list(queryset.values_list(type, flat=True))
     except OperationalError as e:
         raise HttpResponseServerError("Database connection error: {}".format(e))
@@ -99,8 +101,12 @@ time : 시간("15:30"), str
 <역할>
 date/time에 따른 30분 이내의 'title' 데이터를 활용한 워드 클라우드 바이너리 반환
 '''
-def make_wordcloud_with_title(date=None, time=None, *args):
-    titles_list = get_titles_within_thirty_minutes_from_django(date, time, 'title')
+def make_wordcloud_with_title(input_after_datetime, input_before_datetime):
+    titles_list = get_titles_within_thirty_minutes_from_django(
+        input_before_datetime=input_before_datetime,
+        input_after_datetime=input_after_datetime,
+        type='title'
+    )
     titles = parse_titles(titles_list)
     noun_counter = Counter(titles)
     top_nouns = dict(noun_counter.most_common(100))
@@ -127,8 +133,12 @@ time : 시간("15:30"), str
 <역할>
 date/time에 따른 30분 이내의 'noun_title' 데이터를 활용한 빈도수 막대 그래프 바이너리 반환
 '''
-def make_barplot_with_frequency_of_noun_title(date=None, time=None, *args):
-    noun_titles_list = get_titles_within_thirty_minutes_from_django(date, time, 'noun_title')
+def make_barplot_with_frequency_of_noun_title(input_after_datetime, input_before_datetime):
+    noun_titles_list = get_titles_within_thirty_minutes_from_django(
+        input_before_datetime=input_before_datetime,
+        input_after_datetime=input_after_datetime,
+        type='noun_title'
+    )
     noun_titles = parse_titles(noun_titles_list)
     noun_counter = Counter(noun_titles)
     top_nouns = dict(noun_counter.most_common(10))
@@ -169,8 +179,12 @@ date/time에 따른 30분 이내의 'noun_title' 데이터를 활용한 비율 �
 <예외 처리>
 1. 단어 개수가 10개 미만인 경우 : 단어 전체로 그래프 생성
 '''
-def make_donutchart_with_ratio_of_noun_title(date=None, time=None, *args):
-    noun_titles_list = get_titles_within_thirty_minutes_from_django(date, time, 'noun_title')
+def make_donutchart_with_ratio_of_noun_title(input_after_datetime, input_before_datetime):
+    noun_titles_list = get_titles_within_thirty_minutes_from_django(
+        input_before_datetime=input_before_datetime,
+        input_after_datetime=input_after_datetime,
+        type='noun_title'
+    )
     noun_titles = parse_titles(noun_titles_list)
     noun_counter = Counter(noun_titles)
     top_nouns = dict(noun_counter)
@@ -215,3 +229,14 @@ change_binary_to_image(a)
 def change_binary_to_image(binary_data, *args):
     image = Image.open(io.BytesIO(binary_data))
     image.show()
+
+before_date="2024-04-18"
+before_time="07:02"
+input_before_datetime = merge_date_with_time(before_date, before_time)
+after_date="2024-04-18"
+after_time="07:12"
+input_after_datetime = merge_date_with_time(after_date, after_time)
+# print(get_titles_within_thirty_minutes_from_django(input_before_datetime=input_before_datetime,
+#                                                    input_after_datetime=input_after_datetime))
+img = make_donutchart_with_ratio_of_noun_title(input_before_datetime=input_before_datetime, input_after_datetime=input_after_datetime)
+change_binary_to_image(img)
