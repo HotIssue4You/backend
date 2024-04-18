@@ -1,4 +1,6 @@
 /results.csv
 /results2.csv
 /results3.csv
-.DS_store
+*.pyc
+.DS_Store
+/db.sqlite3
