@@ -22,29 +22,29 @@ def process(data):
         processed_data.loc[len(processed_data)] = [processed_title, processed_noun_title, row['created_at']]
     return processed_data
 
-# def process(data, now):
-#     """
-#     1. 기사 목록들로부터 중복 기사들을 유니크하게 만들고,
-#     2. 각 기사 제목으로부터 '[포토 뉴스]'와 같은 헤더를 지우고,
-#     3. 모든 특수문자를 지움.
-#     * 순서 바뀌면 안됨
-#     :param data: pandas dataframe
-#     :return : 전처리 완료된 기사 정보(기사 제목들, 모든 기사들로부터 추출된 명사들, 수집 시간(now)) 행 1개
-#     """
-#     unique_data = to_unique(data)
-#     processed_data = pd.DataFrame(columns=['title', 'noun_title', 'created_at'])
-#     processed_titles = ''
-#     processed_noun_titles = ''
-#     for idx, row in unique_data.iterrows():
-#         minutes_ago = get_time_offset(row['time_offset'])
-#         if minutes_ago > 3:  # 3분 전보다 이전에 작성한 기사들은 무시(중복 제거를 위함)
-#             continue
-#         header_removed = remove_header(row['title'])
-#         processed_title = remove_specialChar(header_removed)
-#         processed_titles += processed_title
-#         processed_noun_titles += get_noun_of_title(processed_title)
-#     processed_data.loc[len(processed_data)] = [processed_titles, processed_noun_titles, now]
-#     return processed_data
+def process_and_merge(data, now):
+    """
+    1. 기사 목록들로부터 중복 기사들을 유니크하게 만들고,
+    2. 각 기사 제목으로부터 '[포토 뉴스]'와 같은 헤더를 지우고,
+    3. 모든 특수문자를 지움.
+    * 순서 바뀌면 안됨
+    :param data: pandas dataframe
+    :return : 전처리 완료된 기사 정보(기사 제목들, 모든 기사들로부터 추출된 명사들, 수집 시간(now)) 행 1개
+    """
+    unique_data = to_unique(data)
+    processed_data = pd.DataFrame(columns=['title', 'noun_title', 'created_at'])
+    processed_titles = ''
+    processed_noun_titles = ''
+    for idx, row in unique_data.iterrows():
+        minutes_ago = get_time_offset(row['time_offset'])
+        if minutes_ago > 3:  # 3분 전보다 이전에 작성한 기사들은 무시(중복 제거를 위함)
+            continue
+        header_removed = remove_header(row['title'])
+        processed_title = remove_specialChar(header_removed)
+        processed_titles += processed_title
+        processed_noun_titles += get_noun_of_title(processed_title)
+    processed_data.loc[len(processed_data)] = [processed_titles, processed_noun_titles, now]
+    return processed_data
 
 
 def get_noun_of_title(title):
