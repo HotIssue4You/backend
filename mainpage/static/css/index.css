@@ -38,14 +38,17 @@ body {
     width: 47%;
     height: 454px;
     margin-left: 41.5%;
-    margin-top: 15px;   
+    margin-top: -3px;   
 }
 a {
     font-family: 'Chosunilbo_myungjo';
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
     color: white;
     margin-left: 64%;
 }
 form {
     margin-left: 7.5%;
-    margin-top: 12.5px;
+    margin-top: -3px;
+    height: 40px;
 }
