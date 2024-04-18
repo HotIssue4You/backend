@@ -13,15 +13,33 @@
             <div class = "contents">
                 <div class = "graph">
                     <div>
-                        <img id = "donut_graph" src="{% static 'images/donut_chart.jpeg' %}" />
+                        <img id = "nouns_graph" src="{% static 'images/donut_chart.jpeg' %}" />
+                        <button id = "switch" onclick="toggleImg()">another: bar_graph</button>
                     </div>
+                    <script>
+                        let flag = true;
+                        function toggleImg() {
+                            document.getElementById("nouns_graph").src = flag 
+                            ? "../../static/images/bar_graph.jpeg"
+                            : "../../static/images/donut_chart.jpeg";
+
+                            document.getElementById("switch").innerText = flag 
+                            ? 'another: donut_graph'   
+                            : 'another: bar_graph';
+
+                            flag = !flag
+                        }
+                    </script>  
                 </div>
-                <div class = "top5">
-                    <h1> &lt TOP 5 &gt </h1>
+                <div class = "top5_header">
+                    <h1> 
+                        <span class = "thin">검색어</span>
+                        <span class = "thick">TOP 5</span>
+                    </h1>
                     <div class = "top5_list">
                         <ol>
                         {% for i in top_5 %}
-                            <li><a href="https://search.naver.com/search.naver?where=news&ie=utf8&sm=nws_hty&query={{i}}">{{i}}</a></li>
+                            <li><a href="https://search.naver.com/search.naver?where=news&ie=utf8&sm=nws_hty&query={{i}}" target="_blank">{{i}}</a></li>
                         {% endfor %}
                         </ol>
                     </div>

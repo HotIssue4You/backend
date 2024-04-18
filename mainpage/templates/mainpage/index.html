@@ -13,17 +13,25 @@
             <div class = "contents">
                 <form action="" method="post">
                     {% csrf_token %}
-                    <p><label for="day_select"></label>
-                    <input type="date" name="day_select" id="day_select" value="{{now_day}}" min="2024-04-01">
-                    <label for="time_select"></label>
-                    <input type="time" id="time_select" name="time_select" value="{{now_time}}">
+                    <p><label for="start_day"></label>
+                    <input type="date" name="start_day" id="start_day" min="2024-04-18">
+                    <label for="start_time"></label>
+                    <input type="time" id="start_time" name="start_time" step="1800" required />
                     &nbsp~&nbsp
-                    <label for="day_select"></label>
-                    <input type="date" name="day_select" id="day_select" value="{{now_day}}" min="2024-04-01">
-                    <label for="time_select"></label>
-                    <input type="time" id="time_select" name="time_select" value="{{now_time}}">
+                    <label for="end_day"></label>
+                    <input type="date" name="end_day" id="end_day" min="2024-04-18">
+                    <label for="end_time"></label>
+                    <input type="time" id="end_time" name="end_time" step="1800" required />
                     <input type="submit"></p>
                 </form>
+                
+                <script>
+                    document.getElementById('start_day').value = new Date().toISOString().substring(0, 10);
+                    document.getElementById('end_day').value = new Date().toISOString().substring(0, 10);
+                    document.getElementById('start_time').value = new Date().toISOString().slice(11, 16);
+                    document.getElementById('end_time').value = new Date().toISOString().slice(11, 16);
+                </script>
+
                 <img id="wordcloud" src="{% static 'images/wordcloudSample.png' %}" />
                 <br><br>
                 <a href="{% url 'mainpage:detail' %}">TOP 5 키워드를 확인해보세요!</a>

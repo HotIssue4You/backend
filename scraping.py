@@ -2,7 +2,7 @@ import requests
 import pandas as pd
 import datetime
 from bs4 import BeautifulSoup as bs
-from preproccesing import process, print_title_dataFrame
+from preproccesing import process, process_and_merge, print_title_dataFrame
 
 """
 below imports from django 
@@ -57,8 +57,8 @@ def main():
         logger.error("HTML 문서로부터 원하는 데이터를 가져오지 못 했습니다.")
 
         return
-    # processed = process(data=df)
-    processed = process(data=df, now=timezone.now())
+    processed = process(data=df)
+    # processed = process_and_merge(data=df, now=timezone.now())
     save_page_rows_to_article(processed)
     print_title_dataFrame(processed)
 

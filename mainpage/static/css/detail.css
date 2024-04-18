@@ -5,6 +5,7 @@
     font-style: normal;
 }
 
+
 body {
     width: 99%;
     height: 500px;
@@ -21,7 +22,7 @@ body {
     display: flex;
     width: 60%;
     height: 640px;
-    background-image : url('../images/subpage_background_image.png');
+    background-image : url('../images/subpage_background_image2.png');
     background-repeat : no-repeat;
     background-size : 100% 620px;
 }
@@ -32,29 +33,61 @@ body {
     width: 100%;
     height: 20%;
 }
+
+
 .graph{
     width: 50%;
 } 
-.top5 {
-    width: 50%;
-}
-#donut_graph {
+#nouns_graph {
     display: block;
     width: 58%;
     height: 320px;
     margin-left: 30%;
     margin-top: 155px; 
 }
+#switch {
+    margin-left: 47%;
+    margin-top: 10px;
+}
+
+.top5_header {
+    width: 50%;
+}
 h1 {
     font-family: 'Chosunilbo_myungjo';
-    color: red;
+    color: white;
     font-size : 50px;
     margin-left: 50px;
-    margin-top: 175px;
+    margin-top: 165px;
 }
+.thin {
+    font-size: 40px;
+    font-weight: lighter;
+}
+.thick {
+    font-weight: bolder;
+    text-shadow: 5px 5px #001a5f;
+}
+
 .top5_list {
-    color: white;
-    font-size : 30px;
+    font-family: 'Chosunilbo_myungjo';
+    font-size : 33px;
+    color: #dfe9f5;
     margin-left: 65px;
-    margin-top: -10px;
+    margin-top: -10px;  
 }
+li {
+    margin:10px;
+}
+a:link {
+    color : #dfe9f5;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 5px;
+}
+a:hover {
+    color : #90b1db;
+}
+a:visited {
+    color : #001a5f;
+}
+

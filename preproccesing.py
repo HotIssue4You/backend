@@ -22,7 +22,7 @@ def process(data):
         processed_data.loc[len(processed_data)] = [processed_title, processed_noun_title, row['created_at']]
     return processed_data
 
-def process(data, now):
+def process_and_merge(data, now):
     """
     1. 기사 목록들로부터 중복 기사들을 유니크하게 만들고,
     2. 각 기사 제목으로부터 '[포토 뉴스]'와 같은 헤더를 지우고,
