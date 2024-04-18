@@ -4,17 +4,17 @@ from django.utils import timezone
 
 # Create your views here.
 def index(request):
-    day_select = request.GET.get('day_select')
-    time_select = request.GET.get('time_select')
-    now_day = timezone.localtime().strftime('%Y-%m-%d') # 현재 날짜
-    now_time = timezone.localtime().strftime('%H:%m') # 현재 시각
+    start_day = request.GET.get('start_day')
+    start_time = request.GET.get('start_time')
+    end_day = request.GET.get('end_day')
+    end_time = request.GET.get('end_time')
     # wordcloud = WordCloud.objects.get() # day-selectd와 time-select 조건에 맞는 워드클라우드 가져오기
     
     context = {
-        "day_select" : day_select,
-        "time_select" : time_select,
-        "now_day" : now_day,
-        "now_time" : now_time,
+        "start_day" : start_day,
+        "start_time" : start_time,
+        "end_day" : end_day,
+        "end_time" : end_time
         # "wordcloud" : wordcloud,
     }
     return render(request, 'mainpage/index.html', context)
