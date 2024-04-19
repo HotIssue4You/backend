@@ -25,6 +25,15 @@ body {
     background-repeat : no-repeat;
     background-size : 100% 620px;
 }
+.date-format {
+    display: block;
+    color: white;
+    font-size: 17px;
+    margin-left: 7.5%;
+    margin-top: 12px;
+    height: 40px;
+}
+
 .leftSide, .rightSide {
     width: 20%;
 }
@@ -38,7 +47,7 @@ body {
     width: 47%;
     height: 454px;
     margin-left: 41.5%;
-    margin-top: -3px;   
+    margin-top: -19px;   
 }
 a {
     font-family: 'Chosunilbo_myungjo';
@@ -46,9 +55,4 @@ a {
     text-underline-offset: 3px;
     color: white;
     margin-left: 64%;
-}
-form {
-    margin-left: 7.5%;
-    margin-top: -3px;
-    height: 40px;
 }

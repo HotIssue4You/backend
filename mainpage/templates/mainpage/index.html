@@ -4,6 +4,13 @@
     <head>
         <title>HOT ISSUE 4 YOU</title>
         <link rel="stylesheet" href="{% static 'css/index.css' %}">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+
     </head>
 
     <body>
@@ -11,30 +18,67 @@
         <div class = "body">
             <div class = "leftSide"></div>
             <div class = "contents">
-                <form action="" method="get">
+                <form method="post">
                     {% csrf_token %}
-                    <p><label for="start_day"></label>
-                    <input type="date" name="start_day" id="start_day" min="2024-04-18">
-                    <label for="start_time"></label>
-                    <input type="time" id="start_time" name="start_time" step="1800" required />
-                    &nbsp~&nbsp
-                    <label for="end_day"></label>
-                    <input type="date" name="end_day" id="end_day" min="2024-04-18">
-                    <label for="end_time"></label>
-                    <input type="time" id="end_time" name="end_time" step="1800" required />
-                    <input type="submit"></p>
+                    <p class = "date-format">
+                        <label for="start"></label>
+                        <input type="text" id="start" name="start" autocomplete="off" placeholder="연도-월-일 hh:mm">
+                        ~
+                        <label for="end"></label>
+                        <input type="text" id="end" name="end" autocomplete="off" placeholder="연도-월-일 hh:mm">
+                        <input type="submit">
+                    </p>
+                    <p class = "hover-box"></p>
                 </form>
-                
+
                 <script>
-                    document.getElementById('start_day').value = new Date().toISOString().substring(0, 10);
-                    document.getElementById('end_day').value = new Date().toISOString().substring(0, 10);
-                    document.getElementById('start_time').value = new Date().toISOString().slice(11, 16);
-                    document.getElementById('end_time').value = new Date().toISOString().slice(11, 16);
+                    $(document).ready(function() {
+                        var $startDate = $('#start');
+                        var $endDate = $('#end');
+                        $startDate.datetimepicker({
+                            format: 'Y-m-d H:i',
+                            step: 30,
+                            lang: 'kr',
+                            defaultDate: false,
+
+                            onShow: function (ct) {
+                                this.setOptions({
+                                    maxDate: $endDate.val() ? $endDate.val() : false
+                                })
+                            },
+                        });
+
+                        $endDate.datetimepicker({
+                            format: 'Y-m-d H:i',
+                            step: 30,
+                            lang: 'kr',
+                            defaultDate: false,
+
+                            onShow: function (ct) {
+                                this.setOptions({
+                                    minDate: $startDate.val() ? $startDate.val() : false
+                                })
+                            }
+                        });
+
+                        // 폼 제출 시 실행될 함수
+                        $("form").submit(function(event) {
+                            var $startDate = $('#start');
+                            var $endDate = $('#end');
+                            var submitted = false; // 폼 제출 상태를 저장할 변수
+                            // 시작일과 종료일이 모두 입력되었는지 확인
+                            if ($startDate.val() && $endDate.val()) {
+                                submitted = true; // 폼 제출 완료
+                                showImage();
+                                return true; // POST 방식으로 제출
+                            } else {
+                                // 시작일 또는 종료일이 입력되지 않은 경우 경고 메시지를 표시하거나 다른 작업을 수행할 수 있습니다.
+                                alert("시작일과 종료일을 모두 입력해주세요.");
+                                return false; // 폼 제출 방지
+                            }
+                        });
+                    });
                 </script>
-                    <img id="wordcloud" src="data:cloud/png;base64,{{ wordcloud|safe }}">
-<!--                <img id="wordcloud" src="{% static 'images/wordcloudSample.png' %}" />-->
-                <br><br>
-                <a href="{% url 'mainpage:detail' %}">TOP 5 키워드를 확인해보세요!</a>
             </div>
             <div class = "rightSide"></div>
         </div>
