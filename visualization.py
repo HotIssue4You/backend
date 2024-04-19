@@ -38,28 +38,28 @@ date/time에 따른 30분 이내의 'title' or 'noun_title' 열의 시리즈를 
 2. 입력한 시간에 기사가 존재하지 않을 경우 : 404 code 반환
 3. 데이터베이스 연결 오류가 발생할 경우 : 500 Code 반환
 '''
-# def merge_date_with_time(date, time):
-#     try:
-#         date = datetime.strptime(date, '%Y-%m-%d').date()
-#         time = datetime.strptime(time, '%H:%M').time()
-#     except:
-#         date = datetime.now(pytz.utc).date()
-#         time = datetime.now(pytz.utc).time()
+def merge_date_with_time(date, time):
+    try:
+        date = datetime.strptime(date, '%Y-%m-%d').date()
+        time = datetime.strptime(time, '%H:%M').time()
+    except:
+        date = datetime.now(pytz.utc).date()
+        time = datetime.now(pytz.utc).time()
 
-#     return timezone.make_aware(datetime.combine(date, time))
+    return timezone.make_aware(datetime.combine(date, time))
 
-# def get_titles_within_thirty_minutes_from_django(input_after_datetime, input_before_datetime, type='title'):
-#     # date/time의 형식은 달라질 수 있음
-#     # thirty_minutes_ago = input_datetime - timedelta(minutes=30)
+def get_titles_within_thirty_minutes_from_django(input_after_datetime, input_before_datetime, type='title'):
+    # date/time의 형식은 달라질 수 있음
+    # thirty_minutes_ago = input_datetime - timedelta(minutes=30)
 
-#     try:
-#         queryset = Article.objects.filter(created_at__lte=input_after_datetime, created_at__gte=input_before_datetime)
-#         titles = list(queryset.values_list(type, flat=True))
-#     except OperationalError as e:
-#         raise HttpResponseServerError("Database connection error: {}".format(e))
+    try:
+        queryset = Article.objects.filter(created_at__lte=input_after_datetime, created_at__gte=input_before_datetime)
+        titles = list(queryset.values_list(type, flat=True))
+    except OperationalError as e:
+        raise HttpResponseServerError("Database connection error: {}".format(e))
     
-#     if len(titles) == 0:
-#         raise Http404("No articles found within the last 30 minutes.")
+    if len(titles) == 0:
+        raise Http404("No articles found within the last 30 minutes.")
     
     return titles
 

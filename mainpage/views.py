@@ -4,7 +4,7 @@ from django.shortcuts import render
 from .models import *
 from django.utils import timezone
 
-# from visualization import make_wordcloud_with_title
+from visualization import make_wordcloud_with_title, generate_graph_from
 
 # Create your views here.
 def index(request):
@@ -16,11 +16,15 @@ def index(request):
         start = request.POST.get('start')
         end = request.POST.get('end')
         # wordcloud = WordCloud.objects.get() # day-selectd와 time-select 조건에 맞는 워드클라우드 가져오기
-        
+        cloud_png = make_wordcloud_with_title(
+            input_before_datetime=start,
+            input_after_datetime=end
+        )
+        wordcloud = generate_graph_from(cloud_png)
         context = {
             "start" : start,
             "end" : end,
-            # "wordcloud" : wordcloud,
+            "wordcloud" : wordcloud,
         }
         return render(request, 'mainpage/index.html', context)
 
