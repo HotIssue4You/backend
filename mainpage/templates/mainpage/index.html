@@ -21,10 +21,10 @@
                     {% csrf_token %}
                     <p class = "date-format">
                         <label for="start"></label>
-                        <input type="text" id="start" name="start" placeholder="연도-월-일 hh:mm">
+                        <input type="text" id="start" name="start" autocomplete="off" placeholder="연도-월-일 hh:mm">
                         ~
                         <label for="end"></label>
-                        <input type="text" id="end" name="end" placeholder="연도-월-일 hh:mm">
+                        <input type="text" id="end" name="end" autocomplete="off" placeholder="연도-월-일 hh:mm">
                         <input type="submit">
                     </p>
                     <p class = "hover-box"></p>
@@ -32,17 +32,29 @@
                 
                 <script>
                     $(document).ready(function() {
-                        var datetimepickerOptions = {
+                        var $startDate = $('#start');
+                        var $endDate = $('#end');
+                        $startDate.datetimepicker({
                             format: 'Y-m-d H:i', 
                             step: 30,
                             lang: 'kr',
-                    
-                            onChangeDateTime: function(selectedDate) {
-                                $('#end').datetimepicker('setOptions', { minDate: selectedDate });
-                            }
-                        };
+                            onShow: function (ct) {
+                                this.setOptions({
+                                    maxDate: $endDate.val() ? $endDate.val() : false
+                                })
+                            },
+                        });
 
-                        $("#start, #end").datetimepicker(datetimepickerOptions);
+                        $endDate.datetimepicker({
+                            format: 'Y-m-d H:i', 
+                            step: 30,
+                            lang: 'kr',
+                            onShow: function (ct) {
+                                this.setOptions({
+                                    minDate: $startDate.val() ? $startDate.val() : false
+                                })
+                            }
+                        });
                     });
                     </script>
 
