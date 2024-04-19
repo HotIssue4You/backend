@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .models import *
 from django.utils import timezone
+from visualization import make_wordcloud_with_title
 
 # Create your views here.
 def index(request):
@@ -17,6 +18,7 @@ def index(request):
         "end_time" : end_time
         # "wordcloud" : wordcloud,
     }
+
     return render(request, 'mainpage/index.html', context)
 
 
