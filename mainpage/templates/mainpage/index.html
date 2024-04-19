@@ -39,6 +39,8 @@
                             format: 'Y-m-d H:i', 
                             step: 30,
                             lang: 'kr',
+                            defaultDate: false,
+
                             onShow: function (ct) {
                                 this.setOptions({
                                     maxDate: $endDate.val() ? $endDate.val() : false
@@ -50,6 +52,8 @@
                             format: 'Y-m-d H:i', 
                             step: 30,
                             lang: 'kr',
+                            defaultDate: false,
+                            
                             onShow: function (ct) {
                                 this.setOptions({
                                     minDate: $startDate.val() ? $startDate.val() : false
