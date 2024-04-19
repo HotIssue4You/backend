@@ -30,13 +30,13 @@
                     </p>
                     <p class = "hover-box"></p>
                 </form>
-                
+
                 <script>
                     $(document).ready(function() {
                         var $startDate = $('#start');
                         var $endDate = $('#end');
                         $startDate.datetimepicker({
-                            format: 'Y-m-d H:i', 
+                            format: 'Y-m-d H:i',
                             step: 30,
                             lang: 'kr',
                             defaultDate: false,
@@ -49,18 +49,18 @@
                         });
 
                         $endDate.datetimepicker({
-                            format: 'Y-m-d H:i', 
+                            format: 'Y-m-d H:i',
                             step: 30,
                             lang: 'kr',
                             defaultDate: false,
-                            
+
                             onShow: function (ct) {
                                 this.setOptions({
                                     minDate: $startDate.val() ? $startDate.val() : false
                                 })
                             }
                         });
-                        
+
                         // 폼 제출 시 실행될 함수
                         $("form").submit(function(event) {
                             var $startDate = $('#start');
