@@ -9,7 +9,12 @@ from visualization import make_wordcloud_with_title, generate_graph_from, make_b
 # Create your views here.
 def index(request):
     if request.method == 'GET':
-        context = {}
+        cloud_png = make_wordcloud_with_title(
+            input_before_datetime="2024-04-18 07:00",
+            input_after_datetime="2024-04-18 07:30",
+        )
+        wordcloud = generate_graph_from(cloud_png)
+        context = {"wordcloud" : wordcloud}
         return render(request,'mainpage/index.html', context)
 
     elif request.method == 'POST':
@@ -25,6 +30,7 @@ def index(request):
             "start" : start,
             "end" : end,
             "wordcloud" : wordcloud,
+            "display" : "block"
         }
         return render(request, 'mainpage/index.html', context)
 
