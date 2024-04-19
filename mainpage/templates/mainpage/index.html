@@ -17,7 +17,7 @@
         <div class = "body">
             <div class = "leftSide"></div>
             <div class = "contents">
-                <form action="" method="get">
+                <form action="" method="post">
                     {% csrf_token %}
                     <p class = "date-format">
                         <label for="start"></label>
@@ -36,12 +36,13 @@
                             format: 'Y-m-d H:i', 
                             step: 30,
                             lang: 'kr',
+                            defaultDate: false,
                     
                             onChangeDateTime: function(selectedDate) {
                                 $('#end').datetimepicker('setOptions', { minDate: selectedDate, minTime: selectedDate });
                             }
                         };
-
+                        $("#start, #end").val(" ");
                         $("#start, #end").datetimepicker(datetimepickerOptions);
                     });
                     </script>
