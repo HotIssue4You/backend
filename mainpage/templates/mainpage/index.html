@@ -10,6 +10,7 @@
         <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+        
     </head>
 
     <body>
@@ -17,7 +18,7 @@
         <div class = "body">
             <div class = "leftSide"></div>
             <div class = "contents">
-                <form action="" method="get">
+                <form action="" method="post">
                     {% csrf_token %}
                     <p class = "date-format">
                         <label for="start"></label>
@@ -44,11 +45,34 @@
 
                         $("#start, #end").datetimepicker(datetimepickerOptions);
                     });
-                    </script>
+                </script>
+                
+                <div>
+                    <img id="wordcloud" src="{% static 'images/wordcloudSample.png' %}" style="display: none;"/>
+                    <p id="textImage" class="text-image">Text Image</p>
+                    <a id="keywordLink" href="{% url 'mainpage:detail' %}" class="text-link" style="display: none;">TOP 5 키워드를 확인해보세요!</a>
 
-                <img id="wordcloud" src="{% static 'images/wordcloudSample.png' %}" />
-                <br><br>
-                <a href="{% url 'mainpage:detail' %}">TOP 5 키워드를 확인해보세요!</a>
+                    <script>
+                        function showImage() {
+                            var startInput = document.getElementById("start");
+                            var endInput = document.getElementById("end");
+                            var imageElement = document.getElementById("wordcloud");
+                            var textImageElement = document.getElementById("textImage");
+                            var keywordLinkElement = document.getElementById("keywordLink");
+                            
+                            // 사용자가 날짜를 입력한 경우 이미지를 표시합니다.
+                            if (startInput.value && endInput.value) {
+                                imageElement.style.display = "block"; // 이미지 보이기
+                                textImageElement.style.display = "none"; // 텍스트 이미지 감추기
+                                keywordLinkElement.style.display = "block"; // 링크 보이기
+                            } else {
+                                imageElement.style.display = "none"; // 이미지 감추기
+                                textImageElement.style.display = "block"; // 텍스트 이미지 보이기
+                                keywordLinkElement.style.display = "none"; // 링크 감추기
+                            }
+                        }
+                    </script>
+                </div>
             </div>
             <div class = "rightSide"></div>
         </div>

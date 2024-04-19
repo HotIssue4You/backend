@@ -5,21 +5,21 @@ from visualization import make_wordcloud_with_title
 
 # Create your views here.
 def index(request):
-    start_day = request.GET.get('start_day')
-    start_time = request.GET.get('start_time')
-    end_day = request.GET.get('end_day')
-    end_time = request.GET.get('end_time')
-    # wordcloud = WordCloud.objects.get() # day-selectd와 time-select 조건에 맞는 워드클라우드 가져오기
-    
-    context = {
-        "start_day" : start_day,
-        "start_time" : start_time,
-        "end_day" : end_day,
-        "end_time" : end_time
-        # "wordcloud" : wordcloud,
-    }
+    if request.method == 'GET':
+        context = {}
+        return render(request,'mainpage/index.html', context)
 
-    return render(request, 'mainpage/index.html', context)
+    elif request.method == 'POST':
+        start = request.POST.get('start')
+        end = request.POST.get('end')
+        # wordcloud = WordCloud.objects.get() # day-selectd와 time-select 조건에 맞는 워드클라우드 가져오기
+        
+        context = {
+            "start" : start,
+            "end" : end,
+            # "wordcloud" : wordcloud,
+        }
+        return render(request, 'mainpage/index.html', context)
 
 
 def detail(request):
