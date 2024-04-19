@@ -4,6 +4,7 @@
     <head>
         <title>show more graph and top 5 words hyperlink</title>
         <link rel="stylesheet" href="{% static 'css/detail.css' %}">
+
     </head>
 
     <body>
@@ -12,6 +13,18 @@
             <div class = "leftSide"></div>
             <div class = "contents">
                 <div class = "graph">
+                    <div id='start_date'></div>
+                    <div id='end_date'></div>
+                    <script>
+                        // URL에서 매개변수 추출
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const start = urlParams.get('start');
+                        const end = urlParams.get('end');
+                        
+                        document.getElementById("start_date").innerText = "s" + start;
+                        document.getElementById("end_date").innerText = "e" + end;
+                        </script>
+
                     <div>
                         <img id = "nouns_graph" src="{% static 'images/donut_chart.jpeg' %}" />
                         <button id = "switch" onclick="toggleImg()">another: bar_graph</button>
@@ -31,6 +44,7 @@
                         }
                     </script>  
                 </div>
+
                 <div class = "top5_header">
                     <h1> 
                         <span class = "thin">검색어</span>

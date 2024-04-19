@@ -79,15 +79,18 @@ h1 {
 li {
     margin:10px;
 }
+a {
+    color : #dfe9f5;
+}
 a:link {
     color : #dfe9f5;
     text-decoration-thickness: 1px;
     text-underline-offset: 5px;
 }
-a:hover {
-    color : #90b1db;
-}
 a:visited {
     color : #001a5f;
+}
+a:hover {
+    color : #90b1db;
 }
 

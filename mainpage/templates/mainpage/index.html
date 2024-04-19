@@ -4,6 +4,12 @@
     <head>
         <title>HOT ISSUE 4 YOU</title>
         <link rel="stylesheet" href="{% static 'css/index.css' %}">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
     </head>
 
     <body>
@@ -13,24 +19,32 @@
             <div class = "contents">
                 <form action="" method="post">
                     {% csrf_token %}
-                    <p><label for="start_day"></label>
-                    <input type="date" name="start_day" id="start_day" min="2024-04-18">
-                    <label for="start_time"></label>
-                    <input type="time" id="start_time" name="start_time" step="1800" required />
-                    &nbsp~&nbsp
-                    <label for="end_day"></label>
-                    <input type="date" name="end_day" id="end_day" min="2024-04-18">
-                    <label for="end_time"></label>
-                    <input type="time" id="end_time" name="end_time" step="1800" required />
-                    <input type="submit"></p>
+                    <p class = "date-format">
+                        <label for="start"></label>
+                        <input type="text" id="start" name="start" placeholder="연도-월-일 hh:mm">
+                        &nbsp~&nbsp
+                        <label for="end"></label>
+                        <input type="text" id="end" name="end" placeholder="연도-월-일 hh:mm">
+                        <input type="submit">
+                    </p>
+                    <p class = "hover-box"></p>
                 </form>
                 
                 <script>
-                    document.getElementById('start_day').value = new Date().toISOString().substring(0, 10);
-                    document.getElementById('end_day').value = new Date().toISOString().substring(0, 10);
-                    document.getElementById('start_time').value = new Date().toISOString().slice(11, 16);
-                    document.getElementById('end_time').value = new Date().toISOString().slice(11, 16);
-                </script>
+                    $(document).ready(function() {
+                        var datetimepickerOptions = {
+                            format: 'Y-m-d H:i', 
+                            step: 30,
+                            lang: 'kr',
+                    
+                            onChangeDateTime: function(selectedDate) {
+                                $('#end').datetimepicker('setOptions', { minDate: selectedDate, minTime: selectedDate });
+                            }
+                        };
+
+                        $("#start, #end").datetimepicker(datetimepickerOptions);
+                    });
+                    </script>
 
                 <img id="wordcloud" src="{% static 'images/wordcloudSample.png' %}" />
                 <br><br>
