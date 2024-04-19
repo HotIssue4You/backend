@@ -1,6 +1,6 @@
 import seaborn as sns
 import matplotlib.pyplot as plt
-from matplotlib import font_manager, rc, use
+from matplotlib import font_manager, use
 use('ps') # matplitlib backend mode, 안하면 쓰레드 충돌 발생
 from wordcloud import WordCloud
 from collections import Counter
@@ -11,34 +11,26 @@ from django.utils import timezone
 from django.http import Http404, HttpResponseServerError
 from django.db.utils import OperationalError
 from mainpage.models import Article
-from datetime import datetime, timedelta
+from datetime import datetime
 import pytz
-
-
 
 '''
 - 시각화 자료 : wordcloud, barplot, donutchart
-
-수정할 사항은 모두 "#"으로 주석 처리
-- 디자인, 폰트 경로, 날짜 형식, 이미지 크기 등
+- Test Function : change_binary_to_image
 '''
 
 '''
-- get_titles_within_thirty_minutes_from_django
-<파라미터>
+- merge_date_with_time
 date : 날짜("2024-01-01"), str
 time : 시간("15:30"), str
-type : 'title' or 'noun_title', 시각화를 위한 열 선택
 
 <역할>
-date/time에 따른 30분 이내의 'title' or 'noun_title' 열의 시리즈를 리스트로 변환해서 반환
+입력받은 날짜와 시간을 timezone 형식으로 변경하여 반환
 
 <예외 처리>
-1. 올바른 형식의 date/time이 아닐 경우 : 현재 utc 시간으로 작동
-2. 입력한 시간에 기사가 존재하지 않을 경우 : 404 code 반환
-3. 데이터베이스 연결 오류가 발생할 경우 : 500 Code 반환
+1. 올바른 날짜 형식이 아닐 경우 현재 시간을 반환
 '''
-def merge_date_with_time(date, time):
+def merge_date_with_time(date=None, time=None):
     try:
         date = datetime.strptime(date, '%Y-%m-%d').date()
         time = datetime.strptime(time, '%H:%M').time()
@@ -48,10 +40,22 @@ def merge_date_with_time(date, time):
 
     return timezone.make_aware(datetime.combine(date, time))
 
-def get_titles_within_thirty_minutes_from_django(input_after_datetime, input_before_datetime, type='title'):
-    # date/time의 형식은 달라질 수 있음
-    # thirty_minutes_ago = input_datetime - timedelta(minutes=30)
+'''
+- get_titles_within_thirty_minutes_from_django
+<파라미터>
+input_after_datetime : 이후 시간
+input_before_datetime : 이전 시간
+type : 'title' or 'noun_title', 시각화를 위한 열 선택
 
+<역할>
+이전 ~ 이후 시간의 'title' or 'noun_title' 열 시리즈를 리스트로 변환해서 반환
+
+<예외 처리>
+1. 거의 동일한 시간(3분 이내)이 들어왔을 경우 : 이전 시간 = 이후 시간 - 30분 으로 설정
+2. 입력한 시간에 기사가 존재하지 않을 경우 : 404 code 반환
+3. 데이터베이스 연결 오류가 발생할 경우 : 500 Code 반환
+'''
+def get_titles_within_thirty_minutes_from_django(input_after_datetime=None, input_before_datetime=None, type='title'):
     try:
         queryset = Article.objects.filter(created_at__lte=input_after_datetime, created_at__gte=input_before_datetime)
         titles = list(queryset.values_list(type, flat=True))
@@ -99,13 +103,13 @@ def generate_binary():
 '''
 - make_binary_wordcloud_with_titles
 <파라미터>
-date : 날짜("2024-01-01"), str
-time : 시간("15:30"), str
+input_after_datetime : 이후 시간
+input_before_datetime : 이전 시간
 
 <역할>
-date/time에 따른 30분 이내의 'title' 데이터를 활용한 워드 클라우드 바이너리 반환
+이전 ~ 이후 시간의 'title' 데이터를 활용한 워드 클라우드 바이너리 반환
 '''
-def make_wordcloud_with_title(input_after_datetime, input_before_datetime):
+def make_wordcloud_with_title(input_after_datetime=None, input_before_datetime=None):
     titles_list = get_titles_within_thirty_minutes_from_django(
         input_before_datetime=input_before_datetime,
         input_after_datetime=input_after_datetime,
@@ -121,23 +125,23 @@ def make_wordcloud_with_title(input_after_datetime, input_before_datetime):
                         font_path=font_path,
                         colormap = 'PuBu').generate_from_frequencies(top_nouns)
 
-    # figsize(크기)
-    plt.figure(figsize=(10, 5))
+    plt.figure(figsize=(10, 5)) 
     plt.imshow(wordcloud, interpolation='bilinear')
     plt.axis('off')
+    plt.tight_layout()
 
     return generate_binary()
 
 '''
 - make_barplot_with_noun_frequency
 <파라미터>
-date : 날짜("2024-01-01"), str
-time : 시간("15:30"), str
+input_after_datetime : 이후 시간
+input_before_datetime : 이전 시간
 
 <역할>
-date/time에 따른 30분 이내의 'noun_title' 데이터를 활용한 빈도수 막대 그래프 바이너리 반환
+이전 ~ 이후 시간의 'noun_title' 데이터를 활용한 빈도수 막대 그래프 바이너리 반환
 '''
-def make_barplot_with_frequency_of_noun_title(input_after_datetime, input_before_datetime):
+def make_barplot_with_frequency_of_noun_title(input_after_datetime=None, input_before_datetime=None):
     noun_titles_list = get_titles_within_thirty_minutes_from_django(
         input_before_datetime=input_before_datetime,
         input_after_datetime=input_after_datetime,
@@ -152,8 +156,7 @@ def make_barplot_with_frequency_of_noun_title(input_after_datetime, input_before
     font_name = font_manager.FontProperties(fname=font_path).get_name()
     plt.rc('font', family=font_name)
 
-    # figsize(크기)
-    plt.figure(figsize=(4, 2))
+    plt.figure(figsize=(10, 5))
     ax = sns.barplot(x=list(top_nouns.keys()), y=list(top_nouns.values()),
                      palette='Blues_r', legend=False, hue=list(top_nouns.keys()))
     for p in ax.patches:
@@ -174,16 +177,16 @@ def make_barplot_with_frequency_of_noun_title(input_after_datetime, input_before
 '''
 - make_donutchart_with_noun_ratio
 <파라미터>
-date : 날짜("2024-01-01"), str
-time : 시간("15:30"), str
+input_after_datetime : 이후 시간
+input_before_datetime : 이전 시간
 
 <역할>
-date/time에 따른 30분 이내의 'noun_title' 데이터를 활용한 비율 도넛 차트 바이너리 반환
+이전 ~ 이후 시간의 'noun_title' 데이터를 활용한 비율 도넛 차트 바이너리 반환
 
 <예외 처리>
 1. 단어 개수가 10개 미만인 경우 : 단어 전체로 그래프 생성
 '''
-def make_donutchart_with_ratio_of_noun_title(input_after_datetime, input_before_datetime):
+def make_donutchart_with_ratio_of_noun_title(input_after_datetime=None, input_before_datetime=None):
     noun_titles_list = get_titles_within_thirty_minutes_from_django(
         input_before_datetime=input_before_datetime,
         input_after_datetime=input_after_datetime,
@@ -191,35 +194,34 @@ def make_donutchart_with_ratio_of_noun_title(input_after_datetime, input_before_
     )
     noun_titles = parse_titles(noun_titles_list)
     noun_counter = Counter(noun_titles)
-    top_nouns = dict(noun_counter)
+    top_nouns = dict(noun_counter.most_common(len(noun_counter)))
 
     sns.set_style('whitegrid')
     font_path ="./mainpage/static/fonts/malgun.ttf"
     font_name = font_manager.FontProperties(fname=font_path).get_name()
     plt.rc('font', family=font_name)
-    
+
     data = list(top_nouns.values())
     labels = list(top_nouns.keys())
 
-    plt.figure(figsize=(10, 5))
+    plt.figure(figsize=(6, 5))
     if len(data) < 10:
-        plt.pie(data, labels=labels, autopct='%1.1f%%', startangle=90)
+        plt.pie(data, labels=labels, autopct='%1.1f%%', startangle=90,
+                labeldistance=1.035, colors=sns.color_palette("Blues"))
     else:
-        total = sum(data)
-        top_10_data = data[:10]
-        top_10_labels = labels[:10]
-
-        other_data = [total - sum(top_10_data)]
-        other_labels = ['기타']
-
-        plt.pie(top_10_data + other_data, labels=top_10_labels + other_labels, autopct='%1.1f%%', startangle=90)
+        plt.pie(data[:10], labels=labels[:10], autopct='%1.1f%%', startangle=90,
+                labeldistance=1.035, colors=sns.color_palette("Blues"))
 
     centre_circle = plt.Circle((0, 0), 0.70, fc='white')
     plt.gca().add_artist(centre_circle)
-    plt.title('단어 빈도에 따른 비율')
+    plt.title('단어별 뉴스 제목 비율 분석', fontsize=18, fontweight='bold')
     plt.axis('equal')
+    plt.tight_layout()
 
-    return generate_binary()
+    total_count = sum(data)
+    top_five_noun_and_ratio = {word: round(count/total_count * 100, 2) for word, count in zip(labels[:5], data[:5])}
+
+    return generate_binary(), top_five_noun_and_ratio
 
 def generate_graph_from(png):
     """
