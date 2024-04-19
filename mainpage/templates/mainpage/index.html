@@ -18,7 +18,7 @@
         <div class = "body">
             <div class = "leftSide"></div>
             <div class = "contents">
-                <form method="post">
+                <form id="submit-form" method="post" target='blankifr'>
                     {% csrf_token %}
                     <p class = "date-format">
                         <label for="start"></label>
@@ -26,11 +26,18 @@
                         ~
                         <label for="end"></label>
                         <input type="text" id="end" name="end" autocomplete="off" placeholder="연도-월-일 hh:mm">
-                        <input type="submit">
+                        <button id="submit-btn" type="button">제출</button>
                     </p>
                     <p class = "hover-box"></p>
                 </form>
-
+                <script>
+                    let submit_form = document.getElementById("submit-form");
+                    let submit_btn = document.getElementById('submit-btn');
+                    submit_btn.addEventListener('click', function () {
+                        showImage();
+                        submit_form.submit();
+                    });
+                </script>
                 <script>
                     $(document).ready(function() {
                         var $startDate = $('#start');
@@ -79,11 +86,51 @@
                         });
                     });
                 </script>
-                <img id="wordcloud" src="data:cloud/png;base64,{{ wordcloud|safe }}">
-                <a id="keywordLink" href="{% url 'mainpage:detail' %}" class="text-link">TOP 5 키워드를 확인해보세요!</a>
+                 <div>
+                     <img id="wordcloud" src="data:cloud/png;base64,{{ wordcloud|safe }} "/>
+                    <p id="textImage" class="text-image">Text Image</p>
+                    <script>
+                        function showImage() {
+                            let startInput = document.getElementById("start");
+                            let endInput = document.getElementById("end");
+                            let imageElement = document.getElementById("wordcloud");
+                            let textImageElement = document.getElementById("textImage");
+                            let keywordLinkElement = document.getElementById("keywordLink");
+                            // 사용자가 날짜를 입력한 경우 이미지를 표시합니다.
+                            if (startInput.value && endInput.value) {
+                                imageElement.style.display = "block"; // 이미지 보이기
+                                textImageElement.style.display = "none"; // 텍스트 이미지 감추기
+                                keywordLinkElement.style.display = "block"; // 링크 보이기
+                            } else {
+                                alert("두 값 모두 작성해주십시오.");
+                            }
+                        }
+                    </script>
+                     <a id="keywordLink" href="{% url 'mainpage:detail' %}?data1={{start}}&data2={{end}}" class="text-link">TOP 5 키워드를 확인해보세요!</a>
+
+                </div>
+                <script>
+                document.getElementById('keywordLink').addEventListener('click', function(event) {
+                    event.preventDefault(); // 기본 동작인 링크 이동을 막습니다.
+                    var startValue = document.getElementById('start').value;
+                    var endValue = document.getElementById('end').value;
+                    var url = '/detail/';
+                    if (startValue) {
+                        url += encodeURIComponent(startValue);
+                        if (endValue) {
+                            url += '/';
+                        }
+                    }
+                    if (endValue) {
+                        url += encodeURIComponent(endValue);
+                    }
+                    window.location.href = url; // 생성된 URL로 이동합니다.
+                });
+                </script>
             </div>
             <div class = "rightSide"></div>
         </div>
         <div class = "footer"></div>
     </body>
+  <iframe name='blankifr' sandbox="allow-same-origin allow-scripts" style='display:none;'></iframe>
 </html>
