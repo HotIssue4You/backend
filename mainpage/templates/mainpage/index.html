@@ -22,7 +22,7 @@
                     <p class = "date-format">
                         <label for="start"></label>
                         <input type="text" id="start" name="start" placeholder="연도-월-일 hh:mm">
-                        &nbsp~&nbsp
+                        ~
                         <label for="end"></label>
                         <input type="text" id="end" name="end" placeholder="연도-월-일 hh:mm">
                         <input type="submit">
@@ -36,13 +36,12 @@
                             format: 'Y-m-d H:i', 
                             step: 30,
                             lang: 'kr',
-                            defaultDate: false,
                     
                             onChangeDateTime: function(selectedDate) {
-                                $('#end').datetimepicker('setOptions', { minDate: selectedDate, minTime: selectedDate });
+                                $('#end').datetimepicker('setOptions', { minDate: selectedDate });
                             }
                         };
-                        $("#start, #end").val(" ");
+
                         $("#start, #end").datetimepicker(datetimepickerOptions);
                     });
                     </script>
