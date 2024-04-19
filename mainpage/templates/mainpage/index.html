@@ -18,6 +18,7 @@
         <div class = "body">
             <div class = "leftSide"></div>
             <div class = "contents">
+<!--                <form id="submit-form" method="post">-->
                 <form id="submit-form" method="post" target='blankifr'>
                     {% csrf_token %}
                     <p class = "date-format">
@@ -106,8 +107,7 @@
                             }
                         }
                     </script>
-                     <a id="keywordLink" href="{% url 'mainpage:detail' %}?data1={{start}}&data2={{end}}" class="text-link">TOP 5 키워드를 확인해보세요!</a>
-
+                     <a id="keywordLink" style='display:none;' href="{% url 'mainpage:detail' %}?data1={{start}}&data2={{end}}" class="text-link">TOP 5 키워드를 확인해보세요!</a>
                 </div>
                 <script>
                 document.getElementById('keywordLink').addEventListener('click', function(event) {

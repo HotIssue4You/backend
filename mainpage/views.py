@@ -49,10 +49,9 @@ def detail(request, start, end):
         input_after_datetime=end
     )
     donut_graph = generate_graph_from(donut_png)
-
     context = {
         "bar_graph" : bar_graph,
         "donut_graph" : donut_graph,
-         "top_5" : [f"{key} ({value}%)" for key, value in top_5.items()],
+         "top_5" : top_5,
     }
     return render(request, 'mainpage/detail.html', context)

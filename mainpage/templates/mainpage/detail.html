@@ -41,8 +41,8 @@
                     </h1>
                     <div class = "top5_list">
                         <ol>
-                        {% for i in top_5 %}
-                            <li><a href="https://search.naver.com/search.naver?where=news&ie=utf8&sm=nws_hty&query={{i}}" target="_blank">{{i}}</a></li>
+                        {% for k, v in top_5.items %}
+                            <li><a href="https://search.naver.com/search.naver?where=news&ie=utf8&sm=nws_hty&query={{k}}" target="_blank">{{k}} ({{v}}%)</a></li>
                         {% endfor %}
                         </ol>
                     </div>
