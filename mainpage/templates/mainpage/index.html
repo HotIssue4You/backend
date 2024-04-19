@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
-        
+
     </head>
 
     <body>
@@ -18,7 +18,7 @@
         <div class = "body">
             <div class = "leftSide"></div>
             <div class = "contents">
-                <form action="" method="post">
+                <form method="post">
                     {% csrf_token %}
                     <p class = "date-format">
                         <label for="start"></label>
@@ -56,6 +56,22 @@
                                 })
                             }
                         });
+                        
+                        // 폼 제출 시 실행될 함수
+                        $("form").submit(function(event) {
+                            var $startDate = $('#start');
+                            var $endDate = $('#end');
+                            // 시작일과 종료일이 모두 입력되었는지 확인
+                            if ($startDate.val() && $endDate.val()) {
+                                showImage();
+                                event.preventDefault();
+                            } else {
+                                // 시작일 또는 종료일이 입력되지 않은 경우 경고 메시지를 표시하거나 다른 작업을 수행할 수 있습니다.
+                                alert("시작일과 종료일을 모두 입력해주세요.");
+                                event.preventDefault(); // 폼 제출 방지
+                            }
+                        });
+
                     });
                 </script>
                 
@@ -66,14 +82,14 @@
 
                     <script>
                         function showImage() {
-                            var startInput = document.getElementById("start");
-                            var endInput = document.getElementById("end");
+                            var $startDate = $('#start');
+                            var $endDate = $('#end');
                             var imageElement = document.getElementById("wordcloud");
                             var textImageElement = document.getElementById("textImage");
                             var keywordLinkElement = document.getElementById("keywordLink");
                             
                             // 사용자가 날짜를 입력한 경우 이미지를 표시합니다.
-                            if (startInput.value && endInput.value) {
+                            if ($startDate.val() && $endDate.val()) {
                                 imageElement.style.display = "block"; // 이미지 보이기
                                 textImageElement.style.display = "none"; // 텍스트 이미지 감추기
                                 keywordLinkElement.style.display = "block"; // 링크 보이기
