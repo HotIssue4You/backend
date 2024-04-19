@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from .models import *
 from django.utils import timezone
-from visualization import make_wordcloud_with_title
+# from visualization import make_wordcloud_with_title
 
 # Create your views here.
 def index(request):
