@@ -1,6 +1,9 @@
+import base64
+
 from django.shortcuts import render
 from .models import *
 from django.utils import timezone
+
 # from visualization import make_wordcloud_with_title
 
 # Create your views here.
@@ -30,6 +33,20 @@ def detail(request):
     bar_graph = ""
     donut_graph = ""
     top_5 = ""
+
+    start_daytime = merge_date_with_time("2024-04-18", "06:32")
+    end_daytime = merge_date_with_time("2024-04-18", "07:12")
+    bar_png = make_barplot_with_frequency_of_noun_title(
+        input_before_datetime=start_daytime,
+        input_after_datetime=end_daytime
+    )
+    bar_graph = generate_graph_from(bar_png)
+
+    donut_png = make_donutchart_with_ratio_of_noun_title(
+        input_before_datetime=start_daytime,
+        input_after_datetime=end_daytime
+    )
+    donut_graph = generate_graph_from(donut_png)
 
     context = {
         "bar_graph" : bar_graph,
