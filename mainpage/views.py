@@ -33,7 +33,8 @@ def index(request):
             "start" : start,
             "end" : end,
             "wordcloud" : wordcloud,
-            "display" : "block"
+            "display" : "block",
+            "current" : "post",
         }
         return render(request, 'mainpage/index.html', context)
 
