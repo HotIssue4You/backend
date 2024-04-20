@@ -25,13 +25,45 @@ body {
     background-repeat : no-repeat;
     background-size : 100% 620px;
 }
-.date-format {
+#before-date {
     display: block;
     color: white;
-    font-size: 17px;
+    font-size: 1.8vw;
     margin-left: 7.5%;
-    margin-top: 12px;
+    margin-top: 10px;
     height: 40px;
+}
+#after-date {
+    display: none;
+}
+#after_date {
+    margin-top: 15px;
+}
+#after_start_date {
+    font-family: 'Chosunilbo_myungjo';
+    font-weight: bolder;
+    text-shadow: 3px 3px #001a5f;
+    display: inline;
+    color: white;
+    font-size: 1.2vw;
+    margin-left: 16%;
+}
+#after_wave {
+    font-family: 'Chosunilbo_myungjo';
+    font-weight: bolder;  
+    display: inline;
+    color: white;
+    font-size: 1vw;
+    margin-left: 1%;
+}   
+#after_end_date{
+    font-family: 'Chosunilbo_myungjo';
+    font-weight: bolder;
+    text-shadow: 3px 3px #001a5f;
+    display: inline;
+    color: white;
+    font-size: 1.2vw;
+    margin-left: 1%;    
 }
 
 .leftSide, .rightSide {
@@ -49,10 +81,12 @@ body {
     margin-left: 41.5%;
     margin-top: -19px;   
 }
-a {
+#keywordLink {
     font-family: 'Chosunilbo_myungjo';
+    font-size: 1.1vw;
     text-decoration-thickness: 1px;
     text-underline-offset: 3px;
     color: white;
-    margin-left: 64%;
+    margin-left: 65%;
+    margin-top: 44px;
 }

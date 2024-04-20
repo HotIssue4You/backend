@@ -18,10 +18,9 @@
         <div class = "body">
             <div class = "leftSide"></div>
             <div class = "contents">
-<!--                <form id="submit-form" method="post">-->
                 <form id="submit-form" method="post">
                     {% csrf_token %}
-                    <p class = "date-format">
+                    <p id = "before-date">
                         <label for="start"></label>
                         <input type="text" id="start" name="start" autocomplete="off" placeholder="연도-월-일 hh:mm">
                         ~
@@ -29,8 +28,13 @@
                         <input type="text" id="end" name="end" autocomplete="off" placeholder="연도-월-일 hh:mm">
                         <button id="submit-btn" type="button">제출</button>
                     </p>
-                    <p class = "hover-box"></p>
+                    <p id = 'after-date' style='display:none;'>
+                        <span id = "after_start_date">{{start}}</span> 
+                        <span id = "after_wave">~</span>
+                        <span id = "after_end_date">{{end}}</span>
+                    </p>
                 </form>
+                
                 <script>
                     let submit_form = document.getElementById("submit-form");
                     let submit_btn = document.getElementById('submit-btn');
@@ -87,27 +91,22 @@
                         });
                     });
                 </script>
-                 <div>
-                     <img id="wordcloud" src="data:cloud/png;base64,{{ wordcloud|safe }} "/>
-                    <p id="textImage" class="text-image">Text Image</p>
+                <div>
+                    <img id="wordcloud" src="data:cloud/png;base64,{{ wordcloud|safe }} "/>
                     <script>
                         function showImage() {
                             let startInput = document.getElementById("start");
                             let endInput = document.getElementById("end");
                             let imageElement = document.getElementById("wordcloud");
-                            let textImageElement = document.getElementById("textImage");
-                            let keywordLinkElement = document.getElementById("keywordLink");
                             // 사용자가 날짜를 입력한 경우 이미지를 표시합니다.
                             if (startInput.value && endInput.value) {
-                                imageElement.style.display = "block"; // 이미지 보이기
-                                textImageElement.style.display = "none"; // 텍스트 이미지 감추기
-                                keywordLinkElement.style.display = "block"; // 링크 보이기
+                                imageElement.style.display = "block"; 
                             } else {
                                 alert("두 값 모두 작성해주십시오.");
                             }
                         }
                     </script>
-                     <a id="keywordLink" style='display:{{display}};' href="" class="text-link">TOP 5 키워드를 확인해보세요!</a>
+                    <a id="keywordLink" style='display:{{display}};' href="" class="text-link">TOP 5 키워드를 확인해보세요!</a>
                 </div>
                 <input type="hidden" id="startDetail" value="{{start}}">
                 <input type="hidden" id="endDetail" value="{{end}}">
@@ -128,11 +127,13 @@
                     }
                     window.location.href = url; // 생성된 URL로 이동합니다.
                 });
+
+
                 </script>
             </div>
             <div class = "rightSide"></div>
         </div>
         <div class = "footer"></div>
     </body>
-  <iframe name='blankifr' sandbox="allow-same-origin allow-scripts" style='display:none;'></iframe>
+<iframe name='blankifr' sandbox="allow-same-origin allow-scripts" style='display:none;'></iframe>
 </html>

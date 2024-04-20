@@ -3,6 +3,7 @@
 <html>
     <head>
         <title>show more graph and top 5 words hyperlink</title>
+        {% load static %}
         <link rel="stylesheet" href="{% static 'css/detail.css' %}">
 
     </head>
@@ -13,8 +14,12 @@
             <div class = "leftSide"></div>
             <div class = "contents">
                 <div class = "graph">
+                    <p class = 'date'>
+                        <span id = "start_date">{{start}}</span> 
+                        <span id = "wave">~</span>
+                        <span id = "end_date">{{end}}</span>
+                    </p>
                     <div>
-<!--                        <img id = "nouns_graph" src="{% static 'images/donut_chart.jpeg' %}" />-->
                         <img id="nouns_graph" src="data:donut/png;base64,{{ donut_graph|safe }}">
                         <button id = "switch" onclick="toggleImg()">another: bar_graph</button>
                     </div>

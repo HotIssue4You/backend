@@ -38,12 +38,41 @@ body {
 .graph{
     width: 50%;
 } 
+.date {
+    margin-top: 15px;
+}
+.date #start_date {
+    font-family: 'Chosunilbo_myungjo';
+    font-weight: bolder;
+    text-shadow: 3px 3px #001a5f;
+    display: inline;
+    color: white;
+    font-size: 1.2vw;
+    margin-left: 16%;
+}
+.date #wave {
+    font-family: 'Chosunilbo_myungjo';
+    font-weight: bolder;  
+    display: inline;
+    color: white;
+    font-size: 1vw;
+    margin-left: 1%;
+}
+.date #end_date{
+    font-family: 'Chosunilbo_myungjo';
+    font-weight: bolder;
+    text-shadow: 3px 3px #001a5f;
+    display: inline;
+    color: white;
+    font-size: 1.2vw;
+    margin-left: 1%;
+}
 #nouns_graph {
     display: block;
     width: 58%;
     height: 320px;
     margin-left: 30%;
-    margin-top: 155px; 
+    margin-top: 140px; 
 }
 #switch {
     margin-left: 47%;
@@ -56,24 +85,25 @@ body {
 h1 {
     font-family: 'Chosunilbo_myungjo';
     color: white;
-    font-size : 50px;
     margin-left: 50px;
     margin-top: 165px;
 }
 .thin {
-    font-size: 40px;
+    font-size: 3vw;
     font-weight: lighter;
 }
 .thick {
+    font-size: 3.5vw;
     font-weight: bolder;
-    text-shadow: 5px 5px #001a5f;
+    text-shadow: 7px 7px #001a5f;
+    margin-left: 2%;
 }
 
 .top5_list {
     font-family: 'Chosunilbo_myungjo';
-    font-size : 33px;
+    font-size : 2vw;
     color: #dfe9f5;
-    margin-left: 65px;
+    margin-left: 70px;
     margin-top: -10px;  
 }
 li {

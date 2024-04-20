@@ -61,6 +61,6 @@ def detail(request, start, end):
     context = {
         "bar_graph" : bar_graph,
         "donut_graph" : donut_graph,
-         "top_5" : top_5,
+        "top_5" : top_5,
     }
     return render(request, 'mainpage/detail.html', context)
