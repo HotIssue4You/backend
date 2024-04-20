@@ -11,7 +11,7 @@ def index(request):
     if request.method == 'GET':
         cloud_png = make_wordcloud_with_title(
             input_before_datetime="2024-04-18 07:00",
-            input_after_datetime="2024-04-18 07:30",
+            input_after_datetime="2024-04-21 07:30",
         )
         wordcloud = generate_graph_from(cloud_png)
         context = {
@@ -62,5 +62,7 @@ def detail(request, start, end):
         "bar_graph" : bar_graph,
         "donut_graph" : donut_graph,
         "top_5" : top_5,
+        "start" : start,
+        "end" : end,
     }
     return render(request, 'mainpage/detail.html', context)

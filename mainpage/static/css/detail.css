@@ -39,7 +39,7 @@ body {
     width: 50%;
 } 
 .date {
-    margin-top: 15px;
+    margin-top: 14px;
 }
 .date #start_date {
     font-family: 'Chosunilbo_myungjo';
@@ -69,14 +69,14 @@ body {
 }
 #nouns_graph {
     display: block;
-    width: 58%;
-    height: 320px;
-    margin-left: 30%;
-    margin-top: 140px; 
+    width: 90%;
+    height: 430px;
+    margin-left: 15%;
+    margin-top: 55px; 
 }
 #switch {
-    margin-left: 47%;
-    margin-top: 10px;
+    margin-left: 50%;
+    margin-top: 12px;
 }
 
 .top5_header {
@@ -85,8 +85,8 @@ body {
 h1 {
     font-family: 'Chosunilbo_myungjo';
     color: white;
-    margin-left: 50px;
-    margin-top: 165px;
+    margin-left: 90px;
+    margin-top: 130px;
 }
 .thin {
     font-size: 3vw;
@@ -101,13 +101,13 @@ h1 {
 
 .top5_list {
     font-family: 'Chosunilbo_myungjo';
-    font-size : 2vw;
-    color: #dfe9f5;
-    margin-left: 70px;
-    margin-top: -10px;  
+    font-size : 1.9vw;
+    color: white;
+    margin-left: 130px;
+    margin-top: 0px;
 }
 li {
-    margin:10px;
+    margin: 15px;
 }
 a {
     color : #dfe9f5;
