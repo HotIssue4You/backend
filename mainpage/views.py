@@ -14,7 +14,10 @@ def index(request):
             input_after_datetime="2024-04-18 07:30",
         )
         wordcloud = generate_graph_from(cloud_png)
-        context = {"wordcloud" : wordcloud}
+        context = {
+            "wordcloud" : wordcloud,
+            "display" : "none",
+        }
         return render(request,'mainpage/index.html', context)
 
     elif request.method == 'POST':
