@@ -32,38 +32,6 @@ body {
     margin-left: 7.5%;
     margin-top: -2px;
 }
-#after-date {
-    display: none;
-}
-#after_date {
-    margin-top: 15px;
-}
-#after_start_date {
-    font-family: 'Chosunilbo_myungjo';
-    font-weight: bolder;
-    text-shadow: 3px 3px #001a5f;
-    display: inline;
-    color: white;
-    font-size: 1.2vw;
-    margin-left: 16%;
-}
-#after_wave {
-    font-family: 'Chosunilbo_myungjo';
-    font-weight: bolder;  
-    display: inline;
-    color: white;
-    font-size: 1vw;
-    margin-left: 1%;
-}   
-#after_end_date{
-    font-family: 'Chosunilbo_myungjo';
-    font-weight: bolder;
-    text-shadow: 3px 3px #001a5f;
-    display: inline;
-    color: white;
-    font-size: 1.2vw;
-    margin-left: 1%;    
-}
 
 .leftSide, .rightSide {
     width: 20%;
