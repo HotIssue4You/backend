@@ -154,7 +154,9 @@ def make_barplot_with_frequency_of_noun_title(input_after_datetime=None, input_b
     sns.set_style('whitegrid')
     font_path ="./mainpage/static/fonts/malgun.ttf"
     font_name = font_manager.FontProperties(fname=font_path).get_name()
-    plt.rc('font', family=font_name)
+    font_name_for_mac_server = 'AppleGothic'
+    plt.rc('font', family=font_name_for_mac_server)
+    plt.rcParams['axes.unicode_minus'] = False
 
     plt.figure(figsize=(10, 5))
     ax = sns.barplot(x=list(top_nouns.keys()), y=list(top_nouns.values()),
@@ -199,7 +201,9 @@ def make_donutchart_with_ratio_of_noun_title(input_after_datetime=None, input_be
     sns.set_style('whitegrid')
     font_path ="./mainpage/static/fonts/malgun.ttf"
     font_name = font_manager.FontProperties(fname=font_path).get_name()
-    plt.rc('font', family=font_name)
+    font_name_for_mac_server = 'AppleGothic'
+    plt.rc('font', family=font_name_for_mac_server)
+    plt.rcParams['axes.unicode_minus'] = False
 
     data = list(top_nouns.values())
     labels = list(top_nouns.keys())
